@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content = "text/html" charset = "utf-8" />
+	<title>接口测试工具</title>
+</head>
+<body>
+<form id = "dataForm" name = "dataForm" target = "_blank" method = "post">
+请输入接口URL：<input type = "text" id = "url" name = "url" style = "width:300px;"/><br />
+请选择传输方式：<select id = "method" name = "method"><option value = "post">post</option><option value = "get">get</option></select>
+<hr />
+参数：
+<div id = "param"></div><br />
+<button>提交</button>
+</form>
+<form id = "addParamForm">
+<input type = "text" id = "newParamName" placeholder = "在此输入新参数名称" style = "width:150px;"><button id = "addParam">点击新增一个参数</button>
+</form>
+</body>
+</html>
+<script type = "text/javascript" src = "js/zepto.min.js"></script>
+<script type = "text/javascript">
+$(document).ready(function(){
+	$('#addParamForm').submit(function(){
+		var newParamName,lineHTML;
+		newParamName = $('#newParamName').val();
+		if (newParamName == null || newParamName == ''){
+			alert('请输入参数名');
+			return false;
+		}
+		lineHTML = '<span id = "' + newParamName + '">' + newParamName + ':<input type = "text" name = "' + newParamName + '" /> <button class = "delParam" target = "' + newParamName + '">-</button><br /></span>';
+		$('#param').append(lineHTML);
+		$('.delParam').click(function(){
+			var target = $(this).attr('target');
+			$('#' + target).remove();
+		});
+		return false;
+	});
+	$('#url').change(function(){$('#dataForm').attr('action',$('#url').val());});
+	$('#method').change(function(){$('#dataForm').attr('method',$('#method').val());});
+});
+</script>
